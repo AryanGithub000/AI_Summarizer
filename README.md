@@ -49,3 +49,8 @@ Output
 The script will scrape reviews from the specified URL using a headless browser.
 It will then use Google's AI Platform Natural Language API to summarize the reviews, highlighting positive and negative aspects as well as popular items mentioned.
 The summary will be printed to the console.
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________
+
+![Reviews](https://github.com/AryanGithub000/AI_Summarizer/assets/103366393/12f24ec4-7345-44c4-8f5c-2dd4bcae588e)
+
