@@ -1,8 +1,17 @@
-import google.generativeai as palm
+# Import Gemini library
+import google.generativeai as genai
+
+from config import API_KEY
+
+# Configure Gemini API with the imported key
+genai.configure(api_key=API_KEY)
+
+model = genai.GenerativeModel(model_name="gemini-pro")
+
 import asyncio
 from pyppeteer import launch
 
-import config
+# Import not required for Gemini API
 
 
 async def scrape_reviews(url):
@@ -37,27 +46,21 @@ async def scrape_reviews(url):
 
 def summarize(reviews, model):
     prompt = "I collected some reviews of a place I was considering visiting. \
-        Can you summarize the reviews for me? I want to generally know what people \
-        like and dislike as well as most selling items. The reviews are below and list them in order:\n"
+                 Can you summarize the reviews for me? I want to generally know what people \
+                 like and dislike as well as most selling items. The reviews are below and list them in order:\n"
     for review in reviews:
         prompt += "\n" + review
 
-    completion = palm.generate_text(
-        model=model,
-        prompt=prompt,
-        temperature=0,
-        # The maximum length of the response
-        max_output_tokens=3000,
+    # Generate content using Gemini model
+    completion = model.generate_content(
+        prompt,
+        generation_config={"temperature": 0, "max_output_tokens": 3000},  # Optional parameters
     )
 
-    return completion.result
+    return completion.text
 
 
-palm.configure(api_key=config.API_KEY)
-models = [
-    m for m in palm.list_models() if "generateText" in m.supported_generation_methods
-]
-model = models[0].name
+# No need for palm.list_models() or model selection
 
 url = input("Enter a url: ")
 
